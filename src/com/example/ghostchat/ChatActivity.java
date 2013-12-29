@@ -29,7 +29,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -66,10 +65,6 @@ public class ChatActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
-		
-		// NetworkOnMainThread hack to allow networking tasks on main thread
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 		
 		// Get username and chatname from intent
 		Bundle extras = getIntent().getExtras();
@@ -249,28 +244,31 @@ public class ChatActivity extends Activity {
 	private class SendMessageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
-
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-            	httpClient.execute(httpGet);
-                
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -281,33 +279,35 @@ public class ChatActivity extends Activity {
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
-
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-                // Make request
-                httpClient.execute(httpGet);
-                
-                // let the user know he has left the chat
-        		final Context context = ChatActivity.this;
-                Toast.makeText(context, "You left the chat...", Toast.LENGTH_LONG).show();
-                
-                // Navigate back to the menu
-        		Intent intent = new Intent(context, MenuActivity.class);                                                                               
-                startActivity(intent);
-                ChatActivity.this.finish();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    		// let the user know he has left the chat
+    		final Context context = ChatActivity.this;
+            Toast.makeText(context, "You left the chat...", Toast.LENGTH_LONG).show();
+            
+            // Navigate back to the menu
+    		Intent intent = new Intent(context, MenuActivity.class);                                                                               
+            startActivity(intent);
+            ChatActivity.this.finish();
         }
     }
 
@@ -318,22 +318,26 @@ public class ChatActivity extends Activity {
             for (String url : urls) {
                 output = url;
             }
+			try {
+				DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // execute request
+	            // Get request response
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            output = reader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
             return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-                // execute request
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                // Get request response
-                String json = reader.readLine();
                 
                 // Instantiate a JSON object from the request response
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(output);
                 // Convert JSON data
                 JSONObject chat = jsonObject.getJSONObject("chat");
                 int online = (Integer)chat.get("onlineusers");
@@ -391,12 +395,6 @@ public class ChatActivity extends Activity {
 	            		}
                 	}
                 }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
             	e.printStackTrace();
 			}

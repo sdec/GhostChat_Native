@@ -3,7 +3,6 @@ package com.example.ghostchat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +18,6 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -41,10 +39,6 @@ public class ChatUsersActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chatusers);
-		
-		// NetworkOnMainThread hack to allow networking tasks on main thread
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 		
 		// Get username and chatname from intent
 		Bundle extras = getIntent().getExtras();
@@ -136,25 +130,34 @@ public class ChatUsersActivity extends Activity {
 	private class GetChatUsersTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-  
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                String json = reader.readLine();
-
                 // Instantiate a JSON object from the request response
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(output);
                 JSONArray arr=null;
 
                try{
@@ -175,12 +178,6 @@ public class ChatUsersActivity extends Activity {
         			boolean isowner = (Boolean) user.get("isowner");
         			addMessageToList(username, chattime, isowner, haslocation, country);
         		}
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
             	e.printStackTrace();
 			}

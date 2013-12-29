@@ -120,7 +120,8 @@
                     android:onClick="oneOnOneChat_Clicked"
                     android:padding="@dimen/AboutTextMargin"
                     android:text="Talk to a stranger!"
-                    android:textColor="#dedede" />
+                    android:textColor="#dedede"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/oneOnOneChatText"

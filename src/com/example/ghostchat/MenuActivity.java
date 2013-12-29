@@ -3,7 +3,6 @@ package com.example.ghostchat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +27,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -69,11 +67,6 @@ public class MenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu_group_chat);
-		
-		// NetworkOnMainThread hack to allow networking tasks on main thread
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-		
 		currentView = 0; // default contentView
 		setInitialGroupChat();
 	}
@@ -428,34 +421,37 @@ public class MenuActivity extends Activity {
 	private class CheckAvailabilityChatTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
 
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-  
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                String json = reader.readLine();
-
                 // Instantiate a JSON object from the request response
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(output);
                 boolean exists = (Boolean) jsonObject.getJSONObject("chat").get("exists");
                 setGroupChatButton(exists);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -466,35 +462,38 @@ public class MenuActivity extends Activity {
 	private class GetRandomLisedChatTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
 
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-  
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                String json = reader.readLine();
-
                 // Instantiate a JSON object from the request response
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(output);
                 boolean found = (Boolean) jsonObject.get("found");
                 chatname = (String) jsonObject.get("chatname");
                 joinChat(found);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -505,21 +504,33 @@ public class MenuActivity extends Activity {
 	private class CreateGroupChatTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
 
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-                httpClient.execute(httpGet);
-                final Context context = MenuActivity.this;
+           final Context context = MenuActivity.this;
         		Intent i = new Intent(context, ChatActivity.class);
         		i.putExtra("username", username);
         		i.putExtra("chatname", chatname);
@@ -541,35 +552,39 @@ public class MenuActivity extends Activity {
 	        		text.setVisibility(View.INVISIBLE);
         		}
         		startActivity(i);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 	
 	private class JoinGroupChatTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
 
-            try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-                // Make request
-               httpClient.execute(httpGet);
-               
+            
                final Context context = MenuActivity.this;
         		Intent i = new Intent(context, ChatActivity.class);
         		// Pass the username and the chatname for the chatactivity to be created
@@ -594,40 +609,41 @@ public class MenuActivity extends Activity {
 	        		text.setVisibility(View.INVISIBLE);
         		}
         		startActivity(i);
-                
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 	
 	private class CheckIfUsernameExistsTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            String output = null;
+        	String output = null;
             for (String url : urls) {
                 output = url;
             }
-            return output;
+			try {
+
+	            DefaultHttpClient httpClient = new DefaultHttpClient();
+	            HttpGet httpGet = new HttpGet(output);
+	            // Make request
+	            HttpResponse httpResponse = httpClient.execute(httpGet);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
+	            // Get request response
+	            output = reader.readLine();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return output;
         }
   
         @Override
         protected void onPostExecute(String output) {
 
             try {
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(output);
-            	// Make request
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                String json = reader.readLine();
-
                 // Instantiate a JSON object from the request response
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(output);
                 boolean usernameExists = (Boolean) jsonObject.get("usernameexists");
                 if (!usernameExists) {
                 	// If username does not exists already we can join the existing chat
@@ -646,12 +662,6 @@ public class MenuActivity extends Activity {
 	            	 final Context context = MenuActivity.this;
 	                 Toast.makeText(context, "This username already exists. Please pick another one...", Toast.LENGTH_LONG).show();
 	            }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
