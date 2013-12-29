@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -34,6 +35,11 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// NetworkOnMainThread hack to allow networking tasks on main thread
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        
 		setContentView(R.layout.activity_main_menu);
 		findViewsById();
 	}
