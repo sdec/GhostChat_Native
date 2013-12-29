@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#2a2a2a"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- ListRow Left sied Thumbnail image -->
+
+
+    <!-- Title Of Song -->
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Native"
+        android:textColor="#dedede"
+        android:textSize="@dimen/CreditsTextSize"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <!-- Artist Name -->
+
+    <TextView
+        android:id="@+id/userInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user"
+        android:layout_marginTop="1dip"
+        android:text="Has been chatting for 00:00:04\n\nBelgium"
+        android:textColor="#dedede"
+        android:textSize="@dimen/AboutTextMargin" />
+
+    <!-- Rightend Duration -->
+
+
+    <!-- Rightend Arrow -->
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userInfo"
+        android:layout_alignParentRight="true"
+        android:padding="3dip" >
+
+        <TextView
+            android:id="@+id/chatowner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chat owner"
+            android:textColor="#dedede" />
+
+        <ImageView
+            android:id="@+id/ImageView01"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/ic_action_user" />
+    </LinearLayout>
+
+</RelativeLayout>

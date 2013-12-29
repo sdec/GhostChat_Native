@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GhostChat</string>
+    <string name="app_credits">© Jeff Horemans, Sander Decoster</string>
+    <string name="action_settings">Settings</string>
+    <string name="about_text">Ghost Chat combines free and anonymous chatting with an offline gaming experience in a simple yet chatty interface.
+        \n\nYou can use Ghost Chat to chat anonymously with random people, either in group or alone. 
+        \n\nWhile suffering from a loss of connection, Ghost Chat offers you a range of small but utterly fun games!</string>
+</resources>

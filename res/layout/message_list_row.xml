@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#2a2a2a"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+ 
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
+ 
+        <ImageView
+            android:id="@+id/list_image"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/ic_action_user" />
+ 
+    </LinearLayout>
+ 
+    <!-- Title Of Song-->
+
+    <TextView
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Native"
+        android:textColor="#dedede"
+        android:textSize="@dimen/BackTextSize"
+        android:textStyle="bold"
+        android:typeface="sans" />
+ 
+    <!-- Artist Name -->
+
+    <TextView
+        android:id="@+id/userMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Hi, how are you doing"
+        android:textColor="#dedede"
+        android:textSize="@dimen/AboutTextTextSize" />
+ 
+    <!-- Rightend Duration -->
+ 
+     <!-- Rightend Arrow -->
+
+    <ImageView
+        android:id="@+id/time"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/timestamp"
+        android:layout_alignRight="@+id/userMessage"
+        android:src="@drawable/ic_action_time" />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/user"
+        android:layout_toLeftOf="@+id/time"
+        android:gravity="right"
+        android:text="5:45:30 from Belgium (BE)"
+        android:textColor="#dedede"
+        android:textSize="@dimen/AboutTextMargin"
+        android:textStyle="bold" />
+ 
+</RelativeLayout>
