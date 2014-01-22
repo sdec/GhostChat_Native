@@ -24,7 +24,7 @@ import android.widget.TextView;
 public class MainMenuActivity extends Activity {
 
 	// url to get the stats from the servlet
-	public static final String URL = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getStats";
+	public static final String URL = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getStats";
 	  
 	// information about the total users online and chats created
 	private TextView users;

@@ -53,7 +53,7 @@ public class ListedChatsActivity extends Activity {
         // Add default header
         addMessageToList("Chat name", "Online users");
         // Url to get the information about all the users of the current chat
-        String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getListedChats";
+        String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getListedChats";
         
         // Corresponding custom task to get the data
         GetListedChatsTask task = new GetListedChatsTask();

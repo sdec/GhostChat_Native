@@ -155,7 +155,7 @@ public class ChatActivity extends Activity {
     
     private void leaveChat(){
     	// Url to confirm the user' leaving to the servlet
-    	String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=leaveChat&username=" + username;
+    	String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=leaveChat&username=" + username;
     	// Initialize and execute corresponding task
     	LeaveChatTask task = new LeaveChatTask();
         task.execute(new String[] { url });
@@ -170,7 +170,7 @@ public class ChatActivity extends Activity {
     
     public void updateChat() {
     	// Url to get current chat information and messages
-        String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getChatData&chatname=" + chatname + "&username=" + username;
+        String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getChatData&chatname=" + chatname + "&username=" + username;
         // Initialize and execute task to update chat information and messages
         UpdateChatTask task = new UpdateChatTask();
         task.execute(new String[] { url });	
@@ -186,7 +186,7 @@ public class ChatActivity extends Activity {
 			String url=null;
 			try {
 				// Url to post the message to the servlet and encode the message to prevent errors
-				url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=sendMessage&chatname=" + chatname + "&username=" + username + "&message=" + URLEncoder.encode(message, "UTF-8");
+				url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=sendMessage&chatname=" + chatname + "&username=" + username + "&message=" + URLEncoder.encode(message, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				Toast.makeText(this, "Something went wrong sending the message, please try again...", Toast.LENGTH_LONG).show();
 			}

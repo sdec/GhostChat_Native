@@ -48,7 +48,7 @@ public class MenuActivity extends Activity {
 	private Spinner spinner;
     private Button btnPlay;
 	
-    public static final String URLrandomListedChat = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getRandomListedChat";
+    public static final String URLrandomListedChat = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getRandomListedChat";
     
     // Information about the user and the chat to create (or join)
     private String username;
@@ -300,7 +300,7 @@ public class MenuActivity extends Activity {
 		EditText chatnameText = (EditText)findViewById(R.id.chatname);
 		chatname = chatnameText.getText().toString();
 		// Url to check the availibility of the given chatname
-		String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=checkAvailibility&chatname=" + chatname;
+		String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=checkAvailibility&chatname=" + chatname;
 		// Corresponding task to check for the availibility of the chat
 		CheckAvailabilityChatTask task = new CheckAvailabilityChatTask();
 		task.execute(new String[] { url });	
@@ -388,14 +388,14 @@ public class MenuActivity extends Activity {
 		String url;
 		if (!join) {
 	        // Url to create a chat
-	        url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=createGroupChat&chatname=" + chatname + "&ownername=" + username + "&country=" + location.getCountryName() + "&showlocation=" + showLocation + "&listed=" + listed;
+	        url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=createGroupChat&chatname=" + chatname + "&ownername=" + username + "&country=" + location.getCountryName() + "&showlocation=" + showLocation + "&listed=" + listed;
 	        // Execute the corresponding task
 	        CreateGroupChatTask task = new CreateGroupChatTask();
 	        task.execute(new String[] { url });	
 	        
 	    } else {
 	    	// Url to check if username exists
-	        url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=usernameExists&chatname=" + chatname + "&username=" + username;
+	        url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=usernameExists&chatname=" + chatname + "&username=" + username;
 	        // Execute the corresponding task which handles the joining process further
 	        CheckIfUsernameExistsTask task = new CheckIfUsernameExistsTask();
 	        task.execute(new String[] { url });	
@@ -652,7 +652,7 @@ public class MenuActivity extends Activity {
                 	String showLocation = "false";
             		if(((MyApplication) getApplication()).showLocation()) showLocation = "true";
             		// Url to join a chat
-	                String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=joinGroupChat&chatname=" + chatname + "&ownername=" + username + "&country=" + location.getCountryName() + "&showlocation=" + showLocation;
+	                String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=joinGroupChat&chatname=" + chatname + "&ownername=" + username + "&country=" + location.getCountryName() + "&showlocation=" + showLocation;
 	                // Corresponding task to execut
 	                JoinGroupChatTask task = new JoinGroupChatTask();
 	    	        task.execute(new String[] { url });	

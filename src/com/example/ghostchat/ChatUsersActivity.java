@@ -61,7 +61,7 @@ public class ChatUsersActivity extends Activity {
         userList.setAdapter(adapter);
         
         // Url to get the information about all the users of the current chat
-        String url = "http://env-0432771.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getChatUsers&chatname="+chatname;
+        String url = "http://env-6802230.jelastic.dogado.eu/GhostChat/GhostChatServlet?action=getChatUsers&chatname="+chatname;
         // Corresponding custom task to get the data
         GetChatUsersTask task = new GetChatUsersTask();
         task.execute(new String[] { url });
